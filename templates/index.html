@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2> Welcome</h2>
+
+<form>
+    {% csrf_token %}
+    
+    <a href="{% url 'update' %}" class="btn btn-success"> Edit </a>
+    <a href="{% url 'logout' %}" class="btn btn-success">Logout</a>
+
+</form>    
+{% endblock content %}

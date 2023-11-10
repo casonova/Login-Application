@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+<div class="container mt-5">
+    <form class="col-6 mx-auto card p-3 shadow-lg" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Login</h2>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {{ form }}
+            <p>Don't Have a account <a href='http://127.0.0.1:8000/signup'>Register</a></p>
+           
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+
+    </form>
+    <br>
+</div>
+
+{% endblock content %}
