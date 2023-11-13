@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content%}
+
+
+<main class="main-container">
+    <form class="container" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 profile-photo-container profile-photo-form-container">
+                <p class="profile-page-heading">Edit your profile</p>
+                <img src="{{ user.profile.profile_img.url }}" alt="user-image" class="img-fluid rounded-circle" style="max-width: 200px;">
+                <div class="form-group mt-3">
+                    {{ form.profile_img }}
+                </div>
+            </div>
+
+            <div class="col-md-8 user-content-container user-profile-form-container">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <label for="id_name">Your Name</label>
+                        <div class="form-group">
+                            {{ form.name }}
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="id_phone_number">Phone number</label>
+                        <div class="form-group">
+                            {{ form.phone_number }}
+                            {{form.errors}}
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <label for="id_address">Address</label>
+                        <div class="form-group">
+                            {{ form.address }}
+                        </div>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-primary mt-3">Save</button>
+            </div>
+        </div>
+    </form>
+</main>
+
+
+
+    {% endblock content %}
