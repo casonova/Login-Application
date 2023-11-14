@@ -4,13 +4,13 @@ from django.forms.models import ModelForm
 from django.forms.widgets import FileInput
 from django import forms
 
+
 class ProfileForm(ModelForm):
-    
-    class Meta:
-        
-        model= Profile
-        fields ="__all__"
+    class Meta:  
+        model = Profile
+        fields = "__all__"
         exclude = ['user']
         widgets = {
             'profile_img':FileInput(),
-        }   
+        }
+    

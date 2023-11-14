@@ -112,7 +112,6 @@ class SignupView(View):
                         return redirect('signup')
                     user = User.objects.create_user(email=email, first_name=first_name, last_name=last_name, username=username, password=password)
                     user_profile = Profile.objects.create(user=user)
-                    user_profile.save()
                     user.save()
                     return redirect('login')
                 else:
