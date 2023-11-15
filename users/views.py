@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseNotFound, HttpResponseServerError
 from django.contrib import messages
 from django.views import View
+from profileapp.models import Profile
 from users.forms import LoginForm, SignupForm, UpdateForm
 
 
@@ -48,8 +49,6 @@ class UpdateView(View):
                     user_instance.set_password(password)
                     form.save()
                     return redirect('index')
-            except PermissionDenied as e:
-                return HttpResponseNotFound(f"Not found {e}")
             except Exception as e:
                 return HttpResponseServerError(f"An error occurred: {e}")    
         form = self.form_class()    
@@ -83,12 +82,11 @@ class LoginView(View):
                 else:
                     messages.error(request, "Invalid form submission")
                     return render(request, 'login.html', {'form': form})
-            except PermissionDenied as e:
-                return HttpResponseNotFound(f"Not found {e}")
             except Exception as e:
                 return HttpResponseServerError(f"An error occurred: {e}")
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
+    
 
 class SignupView(View):
     template_name = 'signup.html'
@@ -109,18 +107,16 @@ class SignupView(View):
                     username = form.cleaned_data.get('username')
                     password = form.cleaned_data.get('password')
                     confirm_password = form.cleaned_data.get('confirm_password')
-
                     if password != confirm_password:
                         messages.error(request, 'Password Does not match')
                         return redirect('signup')
                     user = User.objects.create_user(email=email, first_name=first_name, last_name=last_name, username=username, password=password)
+                    user_profile = Profile.objects.create(user=user)
                     user.save()
                     return redirect('login')
                 else:
-                    messages.error(request, "Invalid Entry")
+                    messages.error(request, "Account Already exists with such credentials")
                     return redirect('signup')
-            except PermissionDenied as e:
-                return HttpResponseNotFound(f"Not found {e}")
             except Exception as e:
                 return HttpResponseServerError(f"An error occurred: {e}")
         form = self.form_class()
